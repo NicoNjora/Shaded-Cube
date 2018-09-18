@@ -5,6 +5,8 @@
 using namespace std;
 
 int initial_time = time(NULL), final_time, frame_count;
+double rotate_y = 0;
+double rotate_x = 0;
 
 void init() {
 	glEnable(GL_DEPTH_TEST);
@@ -12,12 +14,7 @@ void init() {
 	gluOrtho2D(-10, 10, -15, 10);
 }
 
-void handleKeypress(unsigned char key, int x, int y) {
-	switch (key) {
-	case 27:
-		exit(0);
-	}
-}
+
 
 void handleResize(int w, int h) {
 	glViewport(0, 0, w, h);
@@ -30,6 +27,8 @@ float _cameraAngle = 0.0f;
 
 void cube()
 {
+	glRotatef(rotate_x, 1.0, 0.0, 0.0);
+	glRotatef(rotate_y, 0.0, 1.0, 0.0);
 
 	//front side
 	glColor3f(0.169f, 0.169f, 0.169f);//Dark grey
@@ -84,31 +83,39 @@ void drawCube() {
 	glColor3f(.5, 0.5, .25);
 
 	glClear(GL_COLOR_BUFFER_BIT);
-	
+
 	cube();
 
-	frame_count++;
-	final_time = time(NULL);
-	if (final_time - initial_time > 0)
-	{
-		cout << "FPS: " << frame_count / (final_time - initial_time) << "\n";
-		frame_count = 0;
-		initial_time = final_time;
-	}
+	
 
 	glFlush();
 	glPopMatrix();
 	glutSwapBuffers();
 }
 
-void update(int value) {
-	_angle += 0.5f;
-	if (_angle > 360) {
-		_angle -= 360;
-	}
+
+
+void specialKeys(int key, int x, int y) {
+
+	//  Right arrow - increase rotation by 5 degree
+	if (key == GLUT_KEY_RIGHT)
+		rotate_y += 5;
+
+	//  Left arrow - decrease rotation by 5 degree
+	else if (key == GLUT_KEY_LEFT)
+		rotate_y -= 5;
+
+	else if (key == GLUT_KEY_UP)
+		rotate_x += 5;
+
+	else if (key == GLUT_KEY_DOWN)
+		rotate_x -= 5;
+
+	//  Request display update
 	glutPostRedisplay();
-	glutTimerFunc(20, update, 0);
+
 }
+
 
 int main(int argc, char * * argv) {
 	glutInit(&argc, argv);
@@ -117,10 +124,10 @@ int main(int argc, char * * argv) {
 	glutCreateWindow("Cube");
 	init();
 	glutDisplayFunc(drawCube);
-	glutKeyboardFunc(handleKeypress);
+	
 	glutReshapeFunc(handleResize);
-	glutTimerFunc(1000, update, 0);
+	
+	glutSpecialFunc(specialKeys);
 	glutMainLoop();
 	return 0;
 }
-
