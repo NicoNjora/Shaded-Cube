@@ -1,68 +1,151 @@
-//#include <GL/glut.h>;
-//
-//void init(void) {
-//	glClearColor(1.0, 1.0, 1.0, 1.0);
-//
-//	gluOrtho2D(-10, 10, -15, 10);
-//
-//
-//}
-//void drawCube() {
-//
-//	glClear(GL_COLOR_BUFFER_BIT);
-//
-//	glBegin(GL_POLYGON);
-//
-//
-//	glColor3f(0.75f, 0.75f, 0.75f);//Lighter grey
-//
-//	glVertex2i(0, -2);
-//
-//	glVertex2i(3, -3);
-//
-//	//glColor3f(0.1f, 0.1f, 0.1f);//Dark grey
-//
-//	glVertex2i(0, -4);
-//
-//	glColor3f(0.75f, 0.75f, 0.75f);//Lighter grey
-//
-//	glVertex2i(-3, -3);
-//
-//	glColor3f(0.1f, 0.1f, 0.1f);//Dark grey
-//
-//	glVertex2i(-3, -5);
-//
-//	glColor3f(0.1f, 0.1f, 0.1f);//Dark grey
-//
-//	glVertex2i(0, -7);
-//
-//	glVertex2i(0, -4);
-//	glVertex2i(0, -7);
-//
-//	glColor3f(0.1f, 0.1f, 0.1f);//Dark grey
-//
-//	glVertex2i(3, -5);
-//	glVertex2i(3, -3);
-//
-//	glEnd();
-//
-//
-//
-//
-//	glFlush();
-//
-//
-//}
-//
-//int main(int argc, char** argv) {
-//	glutInit(&argc, argv);
-//	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA);
-//	glutInitWindowPosition(100, 100);
-//	glutInitWindowSize(800, 600);
-//	glutCreateWindow(argv[0]);
-//	init();
-//	glutDisplayFunc(drawCube);
-//	glutMainLoop();
-//	return 0;
-//}
-//
+#include <GL/freeglut.h>
+#include <time.h>
+#include <stdlib.h>
+#include <iostream>
+using namespace std;
+
+int initial_time = time(NULL), final_time, frame_count;
+double rotate_y = 0;
+double rotate_x = 0;
+
+void init() {
+	glEnable(GL_DEPTH_TEST);
+	glClearColor(1.0, 1.0, 1.0, 1.0);
+	gluOrtho2D(-10, 10, -15, 10);
+}
+
+
+
+void handleResize(int w, int h) {
+	glViewport(0, 0, w, h);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluPerspective(45.0, (double)w / (double)h, 1.0, 200.0);
+}
+float _angle = 90.0f;
+float _cameraAngle = 0.0f;
+
+void cube()
+{
+	glRotatef(rotate_x, 1.0, 0.0, 0.0);
+	glRotatef(rotate_y, 0.0, 1.0, 0.0);
+
+	//front side
+	glColor3f(0.169f, 0.169f, 0.169f);//Dark grey
+	glBegin(GL_POLYGON);
+	glVertex3f(0.2f, 0.1f, 0.0f);
+	glVertex3f(0.6f, 0.1f, 0.0f);
+	glVertex3f(0.6f, 0.5f, 0.0f);
+	glVertex3f(0.2f, 0.5f, 0.0f);
+	glEnd();
+
+	//back side
+	glColor3f(0.169f, 0.169f, 0.169f);//Dark grey
+	glBegin(GL_POLYGON);
+	glVertex3f(0.2f, 0.1f, 0.5f);
+	glVertex3f(0.6f, 0.1f, 0.5f);
+	glVertex3f(0.6f, 0.5f, 0.5f);
+	glVertex3f(0.2f, 0.5f, 0.5f);
+	glEnd();
+
+	//left side
+	glColor3f(0.169f, 0.169f, 0.169f);//Dark grey
+	glBegin(GL_POLYGON);
+	glVertex3f(0.2f, 0.1f, 0.5f);
+	glVertex3f(0.2f, 0.1f, 0.0f);
+	glVertex3f(0.2f, 0.5f, 0.0f);
+	glVertex3f(0.2f, 0.5f, 0.5f);
+	glEnd();
+
+	//right side
+	glColor3f(0.211f, 0.211f, 0.211f);//Lighter grey
+	glBegin(GL_POLYGON);
+	glVertex3f(0.6f, 0.1f, 0.5f);
+	glVertex3f(0.6f, 0.1f, 0.0f);
+	glVertex3f(0.6f, 0.5f, 0.0f);
+	glVertex3f(0.6f, 0.5f, 0.5f);
+	glEnd();
+
+	//top side
+	glColor3f(0.211f, 0.211f, 0.211f);//Lighter grey
+	glBegin(GL_POLYGON);
+	glVertex3f(0.2f, 0.5f, 0.0f);
+	glVertex3f(0.6f, 0.5f, 0.0f);
+	glVertex3f(0.6f, 0.5f, 0.5f);
+	glVertex3f(0.2f, 0.5f, 0.5f);
+	glEnd();
+
+	//bottom side
+	glColor3f(0.169f, 0.169f, 0.169f);//Dark grey
+	glBegin(GL_POLYGON);
+	glVertex3f(0.2f, 0.1f, 0.0f);
+	glVertex3f(0.6f, 0.1f, 0.0f);
+	glVertex3f(0.6f, 0.1f, 0.5f);
+	glVertex3f(0.2f, 0.1f, 0.5f);
+	glEnd();
+
+
+}
+void drawCube() {
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glRotatef(-_cameraAngle, 0.0f, 1.0f, 0.0f);
+	glTranslatef(-1.0f, -1.5f, -2.0f);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(1.0f, 1.0f, 0.0f);
+	glRotatef(_angle, 0.0f, 0.1f, 0.0f);
+	glScalef(1.0f, 1.0f, 1.0f);
+	glColor3f(1.0, 0.25, 1.0);
+	glColor3f(.5, 0.5, .25);
+
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	cube();
+
+
+
+	glFlush();
+	glPopMatrix();
+	glutSwapBuffers();
+}
+
+
+
+void specialKeys(int key, int x, int y) {
+
+	//  Right arrow - increase rotation by 5 degree
+	if (key == GLUT_KEY_RIGHT)
+		rotate_y += 5;
+
+	//  Left arrow - decrease rotation by 5 degree
+	else if (key == GLUT_KEY_LEFT)
+		rotate_y -= 5;
+
+	else if (key == GLUT_KEY_UP)
+		rotate_x += 5;
+
+	else if (key == GLUT_KEY_DOWN)
+		rotate_x -= 5;
+
+	//  Request display update
+	glutPostRedisplay();
+
+}
+
+
+int main(int argc, char * * argv) {
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+	glutInitWindowSize(1200, 720);
+	glutCreateWindow("Cube");
+	init();
+	glutDisplayFunc(drawCube);
+
+	glutReshapeFunc(handleResize);
+
+	glutSpecialFunc(specialKeys);
+	glutMainLoop();
+	return 0;
+}
