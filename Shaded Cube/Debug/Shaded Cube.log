@@ -1,3 +1,4 @@
-﻿  main.cpp
-c:\users\nicollet njora\source\repos\shaded cube\shaded cube\main.cpp(1): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+﻿  trial.cpp
+c:\users\nicollet njora\source\repos\shaded cube\shaded cube\trial.cpp(7): warning C4244: 'initializing': conversion from 'time_t' to 'int', possible loss of data
+c:\users\nicollet njora\source\repos\shaded cube\shaded cube\trial.cpp(91): warning C4244: '=': conversion from 'time_t' to 'int', possible loss of data
   Shaded Cube.vcxproj -> C:\Users\Nicollet Njora\source\repos\Shaded Cube\Debug\Shaded Cube.exe
