@@ -27,14 +27,23 @@ float _cameraAngle = 0.0f;
 
 void cube()
 {
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glEnable(GL_DEPTH_TEST);
+
+	GLfloat specular[] = { 1.0, 1.0, 1.0, 1.0 };
+	glLightfv(GL_LIGHT0, GL_SPECULAR, specular);
+
+	
 	glRotatef(rotate_x, 1.0, 0.0, 0.0);
 	glRotatef(rotate_y, 0.0, 1.0, 0.0);
 
 	//front side
 	glColor3f(0.169f, 0.169f, 0.169f);//Dark grey
 	glBegin(GL_POLYGON);
+	glColor3f(0.0, 0.0, 0.0);
 	glVertex3f(0.2f, 0.1f, 0.0f);
 	glVertex3f(0.6f, 0.1f, 0.0f);
+	glColor3f(0.6, 0.6, 0.6);
 	glVertex3f(0.6f, 0.5f, 0.0f);
 	glVertex3f(0.2f, 0.5f, 0.0f);
 	glEnd();
@@ -42,8 +51,10 @@ void cube()
 	//back side
 	glColor3f(0.169f, 0.169f, 0.169f);//Dark grey
 	glBegin(GL_POLYGON);
+	glColor3f(0.0, 0.0, 0.0);
 	glVertex3f(0.2f, 0.1f, 0.5f);
 	glVertex3f(0.6f, 0.1f, 0.5f);
+	glColor3f(0.6, 0.6, 0.6);
 	glVertex3f(0.6f, 0.5f, 0.5f);
 	glVertex3f(0.2f, 0.5f, 0.5f);
 	glEnd();
@@ -51,8 +62,10 @@ void cube()
 	//left side
 	glColor3f(0.169f, 0.169f, 0.169f);//Dark grey
 	glBegin(GL_POLYGON);
+	glColor3f(0.0, 0.0, 0.0);
 	glVertex3f(0.2f, 0.1f, 0.5f);
 	glVertex3f(0.2f, 0.1f, 0.0f);
+	glColor3f(0.6, 0.6, 0.6);
 	glVertex3f(0.2f, 0.5f, 0.0f);
 	glVertex3f(0.2f, 0.5f, 0.5f);
 	glEnd();
@@ -60,8 +73,10 @@ void cube()
 	//right side
 	glColor3f(0.211f, 0.211f, 0.211f);//Lighter grey
 	glBegin(GL_POLYGON);
+	glColor3f(0.0, 0.0, 0.0);
 	glVertex3f(0.6f, 0.1f, 0.5f);
 	glVertex3f(0.6f, 0.1f, 0.0f);
+	glColor3f(0.6, 0.6, 0.6);
 	glVertex3f(0.6f, 0.5f, 0.0f);
 	glVertex3f(0.6f, 0.5f, 0.5f);
 	glEnd();
@@ -69,8 +84,10 @@ void cube()
 	//top side
 	glColor3f(0.211f, 0.211f, 0.211f);//Lighter grey
 	glBegin(GL_POLYGON);
+	glColor3f(0.0, 0.0, 0.0);
 	glVertex3f(0.2f, 0.5f, 0.0f);
 	glVertex3f(0.6f, 0.5f, 0.0f);
+	glColor3f(0.6, 0.6, 0.6);
 	glVertex3f(0.6f, 0.5f, 0.5f);
 	glVertex3f(0.2f, 0.5f, 0.5f);
 	glEnd();
@@ -78,8 +95,10 @@ void cube()
 	//bottom side
 	glColor3f(0.169f, 0.169f, 0.169f);//Dark grey
 	glBegin(GL_POLYGON);
+	glColor3f(0.0, 0.0, 0.0);
 	glVertex3f(0.2f, 0.1f, 0.0f);
 	glVertex3f(0.6f, 0.1f, 0.0f);
+	glColor3f(0.6, 0.6, 0.6);
 	glVertex3f(0.6f, 0.1f, 0.5f);
 	glVertex3f(0.2f, 0.1f, 0.5f);
 	glEnd();
